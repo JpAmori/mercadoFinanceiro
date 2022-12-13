@@ -13,5 +13,4 @@ export abstract class View <T>{
 
     protected abstract template(model: T): string; 
 
-
 }

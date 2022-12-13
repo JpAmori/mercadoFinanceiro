@@ -16,18 +16,21 @@ export class NegociacaoController {
     // Adicionar Negociação / Armazenar Negociação
     methodAdd() {
         const negotiation = this.createNegotiation();
-        if (!this.DiaUtil(negotiation.data)) {
+        if (negotiation.data.getDay() > 0 && negotiation.data.getDay() < 6) {
+            this.negotiations.Add(negotiation);
+            console.log(this.negotiations);
+            console.log(negotiation.data);
+            this.updateView();
+            this.cleanNegotiation();
+        }
+        else {
             this.messageView.update('Só serão aceitas as negociações em dias úteis');
             this.cleanNegotiation();
-            return;
         }
-        this.negotiations.Add(negotiation);
-        this.updateView();
-        this.cleanNegotiation();
     }
-    DiaUtil(data) {
+    /*private DiaUtil(data: Date){
         return data.getDay() > 0 && data.getDay() < 6;
-    }
+    }*/
     // Criar negociação
     createNegotiation() {
         const exp = /-/g;
