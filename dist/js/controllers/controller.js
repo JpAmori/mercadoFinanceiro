@@ -1,12 +1,15 @@
 // Importando outros arquivos
 import { Negociacoes } from "../models/listanegociacoes.js";
 import Negociacao from "../models/negociacao.js";
+import NegociacoesView from "../views/negociacoes-view.js";
 export class NegociacaoController {
     constructor() {
         this.negotiations = new Negociacoes();
+        this.negotiationsViews = new NegociacoesView('#negotiationsViews');
         this.inputDate = document.querySelector('#data');
         this.inputAmount = document.querySelector('#quantidade');
         this.inputValue = document.querySelector('#valor');
+        this.negotiationsViews.update();
     }
     // Adicionar Negociação / Armazenar Negociação
     methodAdd() {

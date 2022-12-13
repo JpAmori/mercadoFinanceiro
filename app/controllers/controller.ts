@@ -3,17 +3,20 @@
 
 import { Negociacoes } from "../models/listanegociacoes.js";
 import Negociacao from "../models/negociacao.js";
+import NegociacoesView from "../views/negociacoes-view.js";
 
 export class NegociacaoController {
     private inputDate: HTMLInputElement;
     private inputAmount: HTMLInputElement;
     private inputValue: HTMLInputElement;
     private negotiations = new Negociacoes();
+    private negotiationsViews = new NegociacoesView('#negotiationsViews');
 
     constructor(){
         this.inputDate = document.querySelector('#data');
         this.inputAmount = document.querySelector('#quantidade');
         this.inputValue = document.querySelector('#valor');
+        this.negotiationsViews.update();
     }
     // Adicionar Negociação / Armazenar Negociação
     methodAdd (): void{
