@@ -1,12 +1,13 @@
 import Negociacao from "./negociacao.js";
 
 export class Negociacoes {
-    private negociacoes: Array<Negociacao> = [];
-
+    private negociacoes: Negociacao[] = [];
+    // Adicionando a negociação ao grupo de negociações
     Add (negociacao: Negociacao){
         this.negociacoes.push(negociacao);
     }
-    list (): Array<Negociacao> {
+    // Armazenando a lista ** ReadonlyArray = Declarando que não podera realizar nenhuma alteração na lista
+    list (): readonly Negociacao[] {
         return this.negociacoes;
     }
 }

@@ -1,3 +1,4 @@
+// Importando outros arquivos
 import { Negociacoes } from "../models/listanegociacoes.js";
 import Negociacao from "../models/negociacao.js";
 export class NegociacaoController {
@@ -7,12 +8,18 @@ export class NegociacaoController {
         this.inputAmount = document.querySelector('#quantidade');
         this.inputValue = document.querySelector('#valor');
     }
+    // Adicionar Negociação / Armazenar Negociação
     methodAdd() {
         const negotiation = this.createNegotiation();
         this.negotiations.Add(negotiation);
         console.log(this.negotiations.list());
+        const negociacao = this.createNegotiation();
+        negociacao.data.setDate(29);
+        this.negotiations.Add(negociacao);
+        console.log(this.negotiations.list());
         this.cleanNegotiation();
     }
+    // Criar negociação
     createNegotiation() {
         const exp = /-/g;
         const date = new Date(this.inputDate.value.replace(exp, ','));
@@ -20,6 +27,7 @@ export class NegociacaoController {
         const value = parseFloat(this.inputValue.value);
         return new Negociacao(date, amount, value);
     }
+    // Limpar negociação
     cleanNegotiation() {
         this.inputDate.value = '';
         this.inputAmount.value = '';

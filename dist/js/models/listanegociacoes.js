@@ -2,9 +2,11 @@ export class Negociacoes {
     constructor() {
         this.negociacoes = [];
     }
+    // Adicionando a negociação ao grupo de negociações
     Add(negociacao) {
         this.negociacoes.push(negociacao);
     }
+    // Armazenando a lista ** ReadonlyArray = Declarando que não podera realizar nenhuma alteração na lista
     list() {
         return this.negociacoes;
     }
