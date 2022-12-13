@@ -16,9 +16,17 @@ export class NegociacaoController {
     // Adicionar Negociação / Armazenar Negociação
     methodAdd() {
         const negotiation = this.createNegotiation();
+        if (!this.DiaUtil(negotiation.data)) {
+            this.messageView.update('Só serão aceitas as negociações em dias úteis');
+            this.cleanNegotiation();
+            return;
+        }
         this.negotiations.Add(negotiation);
-        this.negotiationsViews.update(this.negotiations);
+        this.updateView();
         this.cleanNegotiation();
+    }
+    DiaUtil(data) {
+        return data.getDay() > 0 && data.getDay() < 6;
     }
     // Criar negociação
     createNegotiation() {
@@ -34,6 +42,11 @@ export class NegociacaoController {
         this.inputAmount.value = '';
         this.inputValue.value = '';
         this.inputDate.focus();
+    }
+    // Atualiza as Views
+    updateView() {
+        this.negotiationsViews.update(this.negotiations);
+        this.messageView.update('Negociação realizada com Sucesso');
     }
 }
 export default NegociacaoController;

@@ -1,6 +1,7 @@
 
 // Importando outros arquivos
 
+import DiadaSemana from "../enums/dias-da-semana.js";
 import { Negociacoes } from "../models/listanegociacoes.js";
 import Negociacao from "../models/negociacao.js";
 import { MensagemView } from "../views/mensagem-view.js";
@@ -22,13 +23,23 @@ export class NegociacaoController {
     }
     // Adicionar Negociação / Armazenar Negociação
     methodAdd (): void{
-
         const negotiation = this.createNegotiation();
+        if (!this.DiaUtil(negotiation.data)) {
+            this.messageView.update('Só serão aceitas as negociações em dias úteis');
+            this.cleanNegotiation();
+            return;
+        }
+        
         this.negotiations.Add(negotiation);
-        this.negotiationsViews.update(this.negotiations);
+        this.updateView();
         this.cleanNegotiation();
-
+         
     }
+
+   /* private DiaUtil(data: Date){
+        return data.getDay() > 0 && data.getDay() < 6;
+    }*/
+    
     // Criar negociação
     createNegotiation (): Negociacao{
         const exp = /-/g;
@@ -43,6 +54,11 @@ export class NegociacaoController {
         this.inputAmount.value = '';
         this.inputValue.value = '';
         this.inputDate.focus()
+    }
+    // Atualiza as Views
+    private updateView (): void{
+        this.negotiationsViews.update(this.negotiations);
+        this.messageView.update('Negociação realizada com Sucesso');
     }
 }
 
