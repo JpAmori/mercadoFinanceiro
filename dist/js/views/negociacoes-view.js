@@ -1,13 +1,14 @@
 import { View } from "./view.js";
 export class NegociacoesView extends View {
     template(model) {
+        let soma = 0;
         return `
         <table class = "table table-hover table-bordered">
             <thead>
                 <tr>
                     <th>DATA</th>
                     <th>QUANTIDADE</th>
-                    <th>VALOR</th>
+                    <th>VALOR UNITARIO</th>
                     <th>COMPRA</th>
                 </tr>
             </thead>
@@ -17,8 +18,8 @@ export class NegociacoesView extends View {
                         <tr>
                             <td>${new Intl.DateTimeFormat().format(negociacao.data)}</td>
                             <td>${negociacao.quantidade}</td>
-                            <td>${negociacao.valor}R$</td>
-                            <td>${negociacao.volume}R$</td>
+                            <td>${negociacao.valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}R$</td>
+                            <td>${negociacao.volume.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}R$</td>
                         </tr>
                     `;
         }).join('')}
