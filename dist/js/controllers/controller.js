@@ -1,4 +1,3 @@
-// Importando outros arquivos
 import { DiadaSemana } from "../enums/dias-da-semana.js";
 import { Negociacoes } from "../models/listanegociacoes.js";
 import { Negociacao } from "../models/negociacao.js";
@@ -7,14 +6,13 @@ import { NegociacoesView } from "../views/negociacoes-view.js";
 export class NegociacaoController {
     constructor() {
         this.negotiations = new Negociacoes();
-        this.negotiationsViews = new NegociacoesView('#negotiationsViews');
+        this.negotiationsViews = new NegociacoesView('#negotiationsViews', true);
         this.messageView = new MensagemView('#mensagemView');
         this.inputDate = document.querySelector('#data');
         this.inputAmount = document.querySelector('#quantidade');
         this.inputValue = document.querySelector('#valor');
         this.negotiationsViews.update(this.negotiations);
     }
-    // Adicionar Negociação / Armazenar Negociação
     methodAdd() {
         const negotiation = Negociacao.criateDe(this.inputDate.value, this.inputAmount.value, this.inputValue.value);
         if (!this.DiaUtil(negotiation.data)) {
@@ -33,14 +31,12 @@ export class NegociacaoController {
     DiaUtil(data) {
         return data.getDay() > DiadaSemana.DOMINGO && data.getDay() < DiadaSemana.SABADO;
     }
-    // Limpar negociação
     cleanNegotiation() {
         this.inputDate.value = '';
         this.inputAmount.value = '0';
         this.inputValue.value = '0';
         this.inputDate.focus();
     }
-    // Atualiza as Views
     updateView() {
         this.negotiationsViews.update(this.negotiations);
         this.messageView.update('Negociação realizada com Sucesso');
