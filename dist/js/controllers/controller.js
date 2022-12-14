@@ -14,6 +14,7 @@ export class NegociacaoController {
         this.negotiationsViews.update(this.negotiations);
     }
     methodAdd() {
+        const t1 = performance.now();
         const negotiation = Negociacao.criateDe(this.inputDate.value, this.inputAmount.value, this.inputValue.value);
         if (!this.DiaUtil(negotiation.data)) {
             this.messageView.update('Só serão aceitas as negociações em dias úteis');
@@ -27,6 +28,8 @@ export class NegociacaoController {
             this.updateView();
             this.cleanNegotiation();
         }
+        const t2 = performance.now();
+        console.log(`Tempo de Execução: ${(t2 - t1) / 1000}`);
     }
     DiaUtil(data) {
         return data.getDay() > DiadaSemana.DOMINGO && data.getDay() < DiadaSemana.SABADO;

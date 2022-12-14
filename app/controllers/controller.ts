@@ -23,7 +23,7 @@ export class NegociacaoController {
     }
     // Adicionar Negociação / Armazenar Negociação
     public methodAdd (): void{
-        
+        const t1 = performance.now();
         const negotiation = Negociacao.criateDe(
             this.inputDate.value,
             this.inputAmount.value,
@@ -41,7 +41,8 @@ export class NegociacaoController {
             this.cleanNegotiation();
         }
         
-                 
+        const t2 = performance.now();
+        console.log(`Tempo de Execução: ${(t2-t1)/1000}`)
     }
 
     private DiaUtil(data: Date){

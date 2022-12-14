@@ -4,10 +4,13 @@ export abstract class View <T>{
     private scape = false;
 
     constructor(seletor: string, scape?: boolean){
+        const t1 = performance.now();
         this.element = document.querySelector(seletor);
         if (scape) {
             this.scape = scape;
         }
+        const t2 = performance.now()
+        console.log(`Tempo de Execução: ${t2-t1 /(1000)}`)
     }
 
     public update(model: T): void {
