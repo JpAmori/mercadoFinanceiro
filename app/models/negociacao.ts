@@ -13,6 +13,14 @@ export class Negociacao {
   get volume(): number{
     return this.quantidade * this.valor
   }
+
+  public static criateDe(dateString: string, amountString: string, valueString: string): Negociacao{
+    const exp = /-/g;
+      const date = new Date(dateString.replace(exp, ','));
+      const amount = parseInt(amountString);
+      const value = parseFloat(valueString);
+      return new Negociacao(date, amount, value)
+  }
 }
 
 export default Negociacao;

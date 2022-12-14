@@ -1,4 +1,5 @@
 import { Negociacoes } from "../models/listanegociacoes.js";
+import { Negociacao } from "../models/negociacao.js";
 import { View } from "./view.js";
 
 export class NegociacoesView extends View <Negociacoes>{
@@ -18,7 +19,7 @@ export class NegociacoesView extends View <Negociacoes>{
                 ${model.list().map(negociacao =>{
                     return `
                         <tr>
-                            <td>${this.format(negociacao.data)}</td>
+                            <td>${new Intl.DateTimeFormat().format(negociacao.data)}</td>
                             <td>${negociacao.quantidade}</td>
                             <td>${negociacao.valor}R$</td>
                             <td>${negociacao.volume}R$</td>

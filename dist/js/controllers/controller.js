@@ -1,8 +1,9 @@
 // Importando outros arquivos
+import { DiadaSemana } from "../enums/dias-da-semana.js";
 import { Negociacoes } from "../models/listanegociacoes.js";
-import Negociacao from "../models/negociacao.js";
+import { Negociacao } from "../models/negociacao.js";
 import { MensagemView } from "../views/mensagem-view.js";
-import NegociacoesView from "../views/negociacoes-view.js";
+import { NegociacoesView } from "../views/negociacoes-view.js";
 export class NegociacaoController {
     constructor() {
         this.negotiations = new Negociacoes();
@@ -15,35 +16,28 @@ export class NegociacaoController {
     }
     // Adicionar Negociação / Armazenar Negociação
     methodAdd() {
-        const negotiation = this.createNegotiation();
-        if (negotiation.data.getDay() > 0 && negotiation.data.getDay() < 6) {
+        const negotiation = Negociacao.criateDe(this.inputDate.value, this.inputAmount.value, this.inputValue.value);
+        if (!this.DiaUtil(negotiation.data)) {
+            this.messageView.update('Só serão aceitas as negociações em dias úteis');
+            this.cleanNegotiation();
+            return;
+        }
+        else {
             this.negotiations.Add(negotiation);
             console.log(this.negotiations);
             console.log(negotiation.data);
             this.updateView();
             this.cleanNegotiation();
         }
-        else {
-            this.messageView.update('Só serão aceitas as negociações em dias úteis');
-            this.cleanNegotiation();
-        }
     }
-    /*private DiaUtil(data: Date){
-        return data.getDay() > 0 && data.getDay() < 6;
-    }*/
-    // Criar negociação
-    createNegotiation() {
-        const exp = /-/g;
-        const date = new Date(this.inputDate.value.replace(exp, ','));
-        const amount = parseInt(this.inputAmount.value);
-        const value = parseFloat(this.inputValue.value);
-        return new Negociacao(date, amount, value);
+    DiaUtil(data) {
+        return data.getDay() > DiadaSemana.DOMINGO && data.getDay() < DiadaSemana.SABADO;
     }
     // Limpar negociação
     cleanNegotiation() {
         this.inputDate.value = '';
-        this.inputAmount.value = '';
-        this.inputValue.value = '';
+        this.inputAmount.value = '0';
+        this.inputValue.value = '0';
         this.inputDate.focus();
     }
     // Atualiza as Views
