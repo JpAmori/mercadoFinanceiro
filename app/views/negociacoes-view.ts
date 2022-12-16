@@ -5,7 +5,7 @@ import { View } from "./view.js";
 
 export class NegociacoesView extends View <Negociacoes>{
     
-    @escape
+    //@escape()
     template(model: Negociacoes): string{
         let soma: number = 0;
         return `

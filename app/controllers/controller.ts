@@ -26,8 +26,8 @@ export class NegociacaoController {
         this.negotiationsViews.update(this.negotiations);
     }
 
-    @inspect()
-    @loginTimeExecution()
+    /*@inspect()
+    @loginTimeExecution()*/
     // Adicionar Negociação / Armazenar Negociação
     public methodAdd (): void{
         
