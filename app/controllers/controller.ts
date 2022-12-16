@@ -1,6 +1,7 @@
 
 // Importando outros arquivos
 
+import { loginTimedeExecucao } from "../decorators/logar-tempo-de-execucao.js";
 import { DiadaSemana } from "../enums/dias-da-semana.js";
 import { Negociacoes } from "../models/listanegociacoes.js";
 import { Negociacao } from "../models/negociacao.js";
@@ -21,9 +22,10 @@ export class NegociacaoController {
         this.inputValue = document.querySelector('#valor');
         this.negotiationsViews.update(this.negotiations);
     }
+
+    @loginTimedeExecucao()
     // Adicionar Negociação / Armazenar Negociação
     public methodAdd (): void{
-        const t1 = performance.now();
         const negotiation = Negociacao.criateDe(
             this.inputDate.value,
             this.inputAmount.value,
@@ -41,8 +43,6 @@ export class NegociacaoController {
             this.cleanNegotiation();
         }
         
-        const t2 = performance.now();
-        console.log(`Tempo de Execução: ${(t2-t1)/1000}`)
     }
 
     private DiaUtil(data: Date){

@@ -1,3 +1,10 @@
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+import { loginTimedeExecucao } from "../decorators/logar-tempo-de-execucao.js";
 import { DiadaSemana } from "../enums/dias-da-semana.js";
 import { Negociacoes } from "../models/listanegociacoes.js";
 import { Negociacao } from "../models/negociacao.js";
@@ -14,7 +21,6 @@ export class NegociacaoController {
         this.negotiationsViews.update(this.negotiations);
     }
     methodAdd() {
-        const t1 = performance.now();
         const negotiation = Negociacao.criateDe(this.inputDate.value, this.inputAmount.value, this.inputValue.value);
         if (!this.DiaUtil(negotiation.data)) {
             this.messageView.update('Só serão aceitas as negociações em dias úteis');
@@ -28,8 +34,6 @@ export class NegociacaoController {
             this.updateView();
             this.cleanNegotiation();
         }
-        const t2 = performance.now();
-        console.log(`Tempo de Execução: ${(t2 - t1) / 1000}`);
     }
     DiaUtil(data) {
         return data.getDay() > DiadaSemana.DOMINGO && data.getDay() < DiadaSemana.SABADO;
@@ -45,4 +49,7 @@ export class NegociacaoController {
         this.messageView.update('Negociação realizada com Sucesso');
     }
 }
+__decorate([
+    loginTimedeExecucao()
+], NegociacaoController.prototype, "methodAdd", null);
 export default NegociacaoController;
