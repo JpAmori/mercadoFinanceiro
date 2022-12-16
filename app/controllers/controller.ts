@@ -1,7 +1,9 @@
 
 // Importando outros arquivos
 
-import { loginTimedeExecucao } from "../decorators/logar-tempo-de-execucao.js";
+import { domInject } from "../decorators/inject.js";
+import { inspect } from "../decorators/inspect.js";
+import { loginTimeExecution } from "../decorators/logar-tempo-de-execucao.js";
 import { DiadaSemana } from "../enums/dias-da-semana.js";
 import { Negociacoes } from "../models/listanegociacoes.js";
 import { Negociacao } from "../models/negociacao.js";
@@ -9,23 +11,26 @@ import { MensagemView } from "../views/mensagem-view.js";
 import { NegociacoesView } from "../views/negociacoes-view.js";
 
 export class NegociacaoController {
+    @domInject('#data')
     private inputDate: HTMLInputElement;
+    @domInject('#quantidade')
     private inputAmount: HTMLInputElement;
+    @domInject('#valor')
     private inputValue: HTMLInputElement;
+
     private negotiations = new Negociacoes();
-    private negotiationsViews = new NegociacoesView('#negotiationsViews', true);
+    private negotiationsViews = new NegociacoesView('#negotiationsViews');
     private messageView = new MensagemView('#mensagemView');
 
     constructor(){
-        this.inputDate = document.querySelector('#data');
-        this.inputAmount = document.querySelector('#quantidade');
-        this.inputValue = document.querySelector('#valor');
         this.negotiationsViews.update(this.negotiations);
     }
 
-    @loginTimedeExecucao()
+    @inspect()
+    @loginTimeExecution()
     // Adicionar Negociação / Armazenar Negociação
     public methodAdd (): void{
+        
         const negotiation = Negociacao.criateDe(
             this.inputDate.value,
             this.inputAmount.value,
