@@ -7,3 +7,12 @@ form.addEventListener("submit", event => {
     event.preventDefault();
     controller.methodAdd();
 });
+const importButon = document.querySelector('#import');
+if (importButon) {
+    importButon.addEventListener('click', () => {
+        controller.importDados();
+    });
+}
+else {
+    throw console.error('Botão não encontrado');
+}

@@ -32,6 +32,17 @@ export class NegociacaoController {
             this.cleanNegotiation();
         }
     }
+    importDados() {
+        fetch('http://localhost:8080/dados').then(res => res.json()).then((dados) => {
+            return dados.map(dadosDeHoje => {
+                return new Negociacao(new Date(), dadosDeHoje.vezes, dadosDeHoje.montante);
+            });
+        }).then(negotiationsHoje => {
+            for (let negotiation of negotiationsHoje)
+                this.negotiations.Add(negotiation);
+        });
+        this.negotiationsViews.update(this.negotiations);
+    }
     DiaUtil(data) {
         return data.getDay() > DiadaSemana.DOMINGO && data.getDay() < DiadaSemana.SABADO;
     }

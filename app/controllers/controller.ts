@@ -9,6 +9,7 @@ import { Negociacoes } from "../models/listanegociacoes.js";
 import { Negociacao } from "../models/negociacao.js";
 import { MensagemView } from "../views/mensagem-view.js";
 import { NegociacoesView } from "../views/negociacoes-view.js";
+import { NegociationdoDia } from "../interfaces/negociacao-do-dia.js";
 
 export class NegociacaoController {
     @domInject('#data')
@@ -48,6 +49,18 @@ export class NegociacaoController {
             this.cleanNegotiation();
         }
         
+    }
+
+    importDados(){
+        fetch('http://localhost:8080/dados').then(res => res.json()).then((dados: NegociationdoDia[]) => {
+            return dados.map(dadosDeHoje =>{
+                return new Negociacao(new Date(), dadosDeHoje.vezes, dadosDeHoje.montante);
+            })
+        }).then(negotiationsHoje  => {
+            for(let negotiation of negotiationsHoje)    
+                this.negotiations.Add(negotiation)
+        });
+        this.negotiationsViews.update(this.negotiations);
     }
 
     private DiaUtil(data: Date){

@@ -13,6 +13,16 @@ form.addEventListener("submit", event => {
     controller.methodAdd();
 })
 
+const importButon = document.querySelector('#import');
+
+if (importButon) {
+    importButon.addEventListener('click', () => {
+        controller.importDados();
+    })
+}else{
+   throw console.error('Botão não encontrado');
+}
+
 /*const negotiationsViews = new NegociacoesView;
 const template = negotiationsViews.template;
 console.log(template);*/
