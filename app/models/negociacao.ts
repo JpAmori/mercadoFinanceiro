@@ -14,6 +14,13 @@ export class Negociacao {
     return this.quantidade * this.valor
   }
 
+  public forText(): string {
+    return `Data: ${this.data}, 
+            Quantidade: ${this.quantidade},
+            Valor: ${this.valor}`
+      ;
+  }
+
   public static criateDe(dateString: string, amountString: string, valueString: string): Negociacao{
     const exp = /-/g;
       const date = new Date(dateString.replace(exp, ','));

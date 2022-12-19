@@ -10,6 +10,10 @@ export class Negociacoes {
     list (): readonly Negociacao[] {
         return this.negociacoes;
     }
+
+    public forText(): string {
+        return JSON.stringify(this.negociacoes, null, 2)
+    }
 }
 //  Metodos Para adicionar Negociações
 /*const negociacoes = new Negociacoes();

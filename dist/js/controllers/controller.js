@@ -10,11 +10,13 @@ import { Negociacoes } from "../models/listanegociacoes.js";
 import { Negociacao } from "../models/negociacao.js";
 import { MensagemView } from "../views/mensagem-view.js";
 import { NegociacoesView } from "../views/negociacoes-view.js";
+import { NegotiationsService } from "../services/negociacoes-service.js";
 export class NegociacaoController {
     constructor() {
         this.negotiations = new Negociacoes();
         this.negotiationsViews = new NegociacoesView('#negotiationsViews');
         this.messageView = new MensagemView('#mensagemView');
+        this.negotiationServices = new NegotiationsService();
         this.negotiationsViews.update(this.negotiations);
     }
     methodAdd() {
@@ -26,18 +28,14 @@ export class NegociacaoController {
         }
         else {
             this.negotiations.Add(negotiation);
-            console.log(this.negotiations);
-            console.log(negotiation.data);
+            console.log(negotiation.forText());
+            console.log(this.negotiations.forText());
             this.updateView();
             this.cleanNegotiation();
         }
     }
     importDados() {
-        fetch('http://localhost:8080/dados').then(res => res.json()).then((dados) => {
-            return dados.map(dadosDeHoje => {
-                return new Negociacao(new Date(), dadosDeHoje.vezes, dadosDeHoje.montante);
-            });
-        }).then(negotiationsHoje => {
+        this.negotiationServices.getNegotiations().then(negotiationsHoje => {
             for (let negotiation of negotiationsHoje)
                 this.negotiations.Add(negotiation);
         });
