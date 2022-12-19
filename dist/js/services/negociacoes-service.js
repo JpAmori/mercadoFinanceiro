@@ -9,3 +9,4 @@ export class NegotiationsService {
     }
 }
 export default NegotiationsService;
+//# sourceMappingURL=negociacoes-service.js.map

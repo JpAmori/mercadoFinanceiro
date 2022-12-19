@@ -1,4 +1,8 @@
-export class Negociacao {
+import Comparable from "../interfaces/comparable.js";
+import { Model } from "../interfaces/my-object.js";
+import Printable from "../utils/printable.js";
+
+export class Negociacao implements Model<Negociacao> {
 // Declarando dentro do construtor
   constructor(
       private _data: Date,
@@ -19,6 +23,10 @@ export class Negociacao {
             Quantidade: ${this.quantidade},
             Valor: ${this.valor}`
       ;
+  }
+
+  public equal(negociacao: Negociacao): boolean{
+    return this.data.getDate() === negociacao.data.getDate() && this.data.getMonth() === negociacao.data.getMonth() && this.data.getFullYear() === negociacao.data.getFullYear();
   }
 
   public static criateDe(dateString: string, amountString: string, valueString: string): Negociacao{

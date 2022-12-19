@@ -11,6 +11,7 @@ import { Negociacao } from "../models/negociacao.js";
 import { MensagemView } from "../views/mensagem-view.js";
 import { NegociacoesView } from "../views/negociacoes-view.js";
 import { NegotiationsService } from "../services/negociacoes-service.js";
+import PrintOut from "../utils/printOut.js";
 export class NegociacaoController {
     constructor() {
         this.negotiations = new Negociacoes();
@@ -28,14 +29,17 @@ export class NegociacaoController {
         }
         else {
             this.negotiations.Add(negotiation);
-            console.log(negotiation.forText());
-            console.log(this.negotiations.forText());
+            PrintOut(negotiation, this.negotiations);
             this.updateView();
             this.cleanNegotiation();
         }
     }
     importDados() {
         this.negotiationServices.getNegotiations().then(negotiationsHoje => {
+            return negotiationsHoje.filter(negotiationsHoje => {
+                return !this.negotiations.list().some(negotiations => negotiations.equal(negotiationsHoje));
+            });
+        }).then(negotiationsHoje => {
             for (let negotiation of negotiationsHoje)
                 this.negotiations.Add(negotiation);
         });
@@ -65,3 +69,4 @@ __decorate([
     domInject('#valor')
 ], NegociacaoController.prototype, "inputValue", void 0);
 export default NegociacaoController;
+//# sourceMappingURL=controller.js.map

@@ -1,6 +1,3 @@
-import { escape } from "../decorators/escape.js";
-import { inspect } from "../decorators/inspect.js";
-import { loginTimeExecution } from "../decorators/logar-tempo-de-execucao.js";
 
 export abstract class View <T>{
 

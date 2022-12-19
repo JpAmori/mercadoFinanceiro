@@ -1,6 +1,8 @@
+import { Model } from "../interfaces/my-object.js";
 import Negociacao from "./negociacao.js";
 
-export class Negociacoes {
+export class Negociacoes implements Model<Negociacoes> {
+    
     private negociacoes: Negociacao[] = [];
     // Adicionando a negociação ao grupo de negociações
     Add (negociacao: Negociacao){
@@ -14,11 +16,9 @@ export class Negociacoes {
     public forText(): string {
         return JSON.stringify(this.negociacoes, null, 2)
     }
+
+    public equal(object: Negociacoes): boolean {
+        return JSON.stringify(this.negociacoes) === JSON.stringify(object.list());
+    }
 }
-//  Metodos Para adicionar Negociações
-/*const negociacoes = new Negociacoes();
-negociacoes.lista().array.forEach(n => {
-    n.
-});*/
-/*const negociacoes = new Negociacoes();
-negociacoes.methodAdd(negociacoes)*/
+

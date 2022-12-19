@@ -32,3 +32,4 @@ export class NegociacoesView extends View {
     }
 }
 export default NegociacoesView;
+//# sourceMappingURL=negociacoes-view.js.map
