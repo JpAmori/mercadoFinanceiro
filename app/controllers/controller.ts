@@ -1,29 +1,40 @@
 
 // Importando outros arquivos
 
+import { domInject } from "../decorators/inject.js";
+import { inspect } from "../decorators/inspect.js";
+import { loginTimeExecution } from "../decorators/logar-tempo-de-execucao.js";
 import { DiadaSemana } from "../enums/dias-da-semana.js";
 import { Negociacoes } from "../models/listanegociacoes.js";
 import { Negociacao } from "../models/negociacao.js";
 import { MensagemView } from "../views/mensagem-view.js";
 import { NegociacoesView } from "../views/negociacoes-view.js";
+import { NegociationdoDia } from "../interfaces/negociacao-do-dia.js";
+import { NegotiationsService }from "../services/negociacoes-service.js";
+import PrintOut from "../utils/printOut.js";
 
 export class NegociacaoController {
+    @domInject('#data')
     private inputDate: HTMLInputElement;
+    @domInject('#quantidade')
     private inputAmount: HTMLInputElement;
+    @domInject('#valor')
     private inputValue: HTMLInputElement;
+
     private negotiations = new Negociacoes();
-    private negotiationsViews = new NegociacoesView('#negotiationsViews', true);
+    private negotiationsViews = new NegociacoesView('#negotiationsViews');
     private messageView = new MensagemView('#mensagemView');
+    private negotiationServices = new NegotiationsService();
 
     constructor(){
-        this.inputDate = document.querySelector('#data');
-        this.inputAmount = document.querySelector('#quantidade');
-        this.inputValue = document.querySelector('#valor');
         this.negotiationsViews.update(this.negotiations);
     }
+
+    /*@inspect()
+    @loginTimeExecution()*/
     // Adicionar Negociação / Armazenar Negociação
     public methodAdd (): void{
-        const t1 = performance.now();
+        
         const negotiation = Negociacao.criateDe(
             this.inputDate.value,
             this.inputAmount.value,
@@ -35,14 +46,23 @@ export class NegociacaoController {
             return;
         }else{
             this.negotiations.Add(negotiation);
-            console.log(this.negotiations);
-            console.log(negotiation.data);
+            PrintOut(negotiation, this.negotiations);
             this.updateView();
             this.cleanNegotiation();
         }
         
-        const t2 = performance.now();
-        console.log(`Tempo de Execução: ${(t2-t1)/1000}`)
+    }
+
+    importDados(){
+        this.negotiationServices.getNegotiations().then(negotiationsHoje => {
+            return negotiationsHoje.filter(negotiationsHoje => {
+                return !this.negotiations.list().some(negotiations => negotiations.equal(negotiationsHoje))
+            })
+        }).then(negotiationsHoje  => {
+            for(let negotiation of negotiationsHoje)    
+                this.negotiations.Add(negotiation)
+        });
+        this.negotiationsViews.update(this.negotiations);
     }
 
     private DiaUtil(data: Date){

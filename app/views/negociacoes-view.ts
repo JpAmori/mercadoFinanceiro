@@ -1,9 +1,11 @@
+import { escape } from "../decorators/escape.js";
 import { Negociacoes } from "../models/listanegociacoes.js";
 import { Negociacao } from "../models/negociacao.js";
 import { View } from "./view.js";
 
 export class NegociacoesView extends View <Negociacoes>{
-
+    
+    //@escape()
     template(model: Negociacoes): string{
         let soma: number = 0;
         return `
@@ -41,3 +43,4 @@ export class NegociacoesView extends View <Negociacoes>{
 
 
 export default NegociacoesView;
+
